@@ -3,15 +3,10 @@ package view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import log.Logger;
 import view.windows.GameWindow;
@@ -49,7 +44,8 @@ public class MainApplicationFrame extends JFrame
         addWindow(desktopPane, createGameWindow(400, 400));
 
         setJMenuBar(generateMenuBar());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        exitHandler();
     }
 
     private JMenuBar generateMenuBar()
@@ -92,9 +88,43 @@ public class MainApplicationFrame extends JFrame
             testMenu.add(addLogMessageItem);
         }
 
+        JMenu exitMenu = new JMenu("Система");
+        exitMenu.setMnemonic(KeyEvent.VK_X);
+        exitMenu.getAccessibleContext().setAccessibleDescription(
+                "Уаправление работой приложения");
+
+        {
+            JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
+            menuCloseOperation.addActionListener((event) -> {
+                exitHandler();
+            });
+            exitMenu.add(menuCloseOperation);
+        }
+
         menuBar.add(lookAndFeelMenu);
         menuBar.add(testMenu);
+        menuBar.add(exitMenu);
         return menuBar;
+    }
+
+    private void exitHandler()
+    {
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                int option = JOptionPane.showConfirmDialog(desktopPane,
+                        "Вы уверены, что хотите закрыть приложение?",
+                        "Подтверждение",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(option == 0){
+                    setVisible(false);
+                    dispose();
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     private void setLookAndFeel(String className)

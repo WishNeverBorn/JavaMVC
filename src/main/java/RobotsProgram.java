@@ -2,7 +2,7 @@ import view.MainApplicationFrame;
 
 import java.awt.Frame;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * Main класс
@@ -12,6 +12,9 @@ public class RobotsProgram
 {
     public static void main(String[] args) {
         try {
+            UIManager.put("OptionPane.yesButtonText", "Да");
+            UIManager.put("OptionPane.noButtonText", "Нет");
+
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
