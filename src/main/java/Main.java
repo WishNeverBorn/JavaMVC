@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
  * Main класс
  * Точка входа в программу
  */
-public class RobotsProgram
+public class Main
 {
     public static void main(String[] args) {
         try {

@@ -28,4 +28,11 @@ public class WindowManager {
         return gameWindow;
     }
 
+    public static LocationWindow createLocationWindow(int width, int height)
+    {
+        LocationWindow locationWindow = new LocationWindow();
+        locationWindow.setSize(width, height);
+        return locationWindow;
+    }
+
 }

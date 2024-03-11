@@ -1,6 +1,6 @@
 package view.windows;
 
-import view.GameVisualizer;
+import view.visualizers.GameVisualizer;
 import java.awt.BorderLayout;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
