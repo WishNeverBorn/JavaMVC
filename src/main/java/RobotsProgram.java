@@ -1,7 +1,13 @@
 import view.MainApplicationFrame;
 
 import java.awt.Frame;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.StringJoiner;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 
 /**
@@ -11,8 +17,13 @@ import javax.swing.*;
 public class RobotsProgram
 {
     public static void main(String[] args) {
+        Locale locale = new Locale("ru", "RU");
         try {
-            UIManager.put("OptionPane.yesButtonText", "Да");
+            String yes = new String(ResourceBundle.getBundle("lang", locale)
+                    .getString("option.yes")
+                    .getBytes(StandardCharsets.ISO_8859_1),
+                    StandardCharsets.UTF_8);
+            UIManager.put("OptionPane.yesButtonText", yes);
             UIManager.put("OptionPane.noButtonText", "Нет");
 
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");

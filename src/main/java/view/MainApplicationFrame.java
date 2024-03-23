@@ -45,7 +45,13 @@ public class MainApplicationFrame extends JFrame
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        exitHandler();
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                closeWithConfirm();
+            }
+        });
     }
 
     private JMenuBar generateMenuBar()
@@ -95,9 +101,7 @@ public class MainApplicationFrame extends JFrame
 
         {
             JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
-            menuCloseOperation.addActionListener((event) -> {
-                exitHandler();
-            });
+            menuCloseOperation.addActionListener((event) -> closeWithConfirm());
             exitMenu.add(menuCloseOperation);
         }
 
@@ -107,24 +111,18 @@ public class MainApplicationFrame extends JFrame
         return menuBar;
     }
 
-    private void exitHandler()
+    private void closeWithConfirm()
     {
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent e)
-            {
-                int option = JOptionPane.showConfirmDialog(desktopPane,
-                        "Вы уверены, что хотите закрыть приложение?",
-                        "Подтверждение",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
-                if(option == 0){
-                    setVisible(false);
-                    dispose();
-                    System.exit(0);
-                }
-            }
-        });
+        int option = JOptionPane.showConfirmDialog(desktopPane,
+                "Вы уверены, что хотите закрыть приложение?",
+                "Подтверждение",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if(option == 0) {
+            setVisible(false);
+            dispose();
+            System.exit(0);
+        }
     }
 
     private void setLookAndFeel(String className)
