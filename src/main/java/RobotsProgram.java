@@ -19,12 +19,12 @@ public class RobotsProgram
     public static void main(String[] args) {
         Locale locale = new Locale("ru", "RU");
         try {
-            String yes = new String(ResourceBundle.getBundle("lang", locale)
-                    .getString("option.yes")
-                    .getBytes(StandardCharsets.ISO_8859_1),
-                    StandardCharsets.UTF_8);
-            UIManager.put("OptionPane.yesButtonText", yes);
-            UIManager.put("OptionPane.noButtonText", "Нет");
+            UIManager.put("OptionPane.yesButtonText",
+                    ResourceBundle.getBundle("lang", locale)
+                    .getString("option.yes"));
+            UIManager.put("OptionPane.noButtonText",
+                    ResourceBundle.getBundle("lang", locale)
+                    .getString("option.no"));
 
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");

@@ -121,7 +121,7 @@ public class MainApplicationFrame extends JFrame
         if(option == 0) {
             setVisible(false);
             dispose();
-            System.exit(0);
+            /*System.exit(0);*/
         }
     }
 
