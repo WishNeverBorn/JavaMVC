@@ -1,9 +1,15 @@
 package view.windows;
 
 import log.Logger;
+import view.visualizers.GameVisualizer;
 
 import javax.swing.*;
 
+/**
+ * Класс менеджера для создания окон
+ * TODO
+ * выделить abstract class для обобщения
+ */
 public class WindowManager {
     public static void addWindow(JDesktopPane desktopPane, JInternalFrame frame){
         desktopPane.add(frame);
@@ -21,9 +27,9 @@ public class WindowManager {
         return lgWindow;
     }
 
-    public static GameWindow createGameWindow(int width, int height)
+    public static GameWindow createGameWindow(GameVisualizer someVisualizer, int width, int height)
     {
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(someVisualizer);
         gameWindow.setSize(width, height);
         return gameWindow;
     }

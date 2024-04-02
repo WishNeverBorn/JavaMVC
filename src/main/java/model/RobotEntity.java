@@ -1,33 +1,55 @@
 package model;
-import java.util.Observable;
+
+import view.visualizers.GameVisualizer;
+
+import java.util.ArrayList;
 
 /**
- * Класс модели, занимается всеми рассчетами на основе действий пользователя
+ * Класс модели, занимается рассчетами траектории движения робота относительно цели
+ * TODO:
  */
-public class GameModel {
-    private static volatile double robotPositionX = 100;
-    private static volatile double robotPositionY = 100;
+public class RobotEntity extends Entity implements Observable{
     private double robotDirection = 0;
     private static final double maxVelocity = 0.1;
     private static final double maxAngularVelocity = 0.001;
+    private ArrayList<GameVisualizer> observers = new ArrayList<>();
 
-    public GameModel(){}
+    public RobotEntity(){
+        super(100, 100);
+    }
 
-    public void updatePosition(double duration, int[] targetCoordinate){
-        int targetX = targetCoordinate[0];
-        int targetY = targetCoordinate[1];
+    @Override
+    public void addObserver(GameVisualizer observer) {
+        observers.add(observer);
+    }
 
-        double distance = distance(robotPositionX, robotPositionY,
-                targetX, targetY);
+    @Override
+    public void removeObserver(GameVisualizer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (GameVisualizer observer : observers) {
+            observer.update();
+        }
+    }
+
+    public void updatePosition(double duration, double[] targetCoordinate){
+        double targetX = targetCoordinate[0];
+        double targetY = targetCoordinate[1];
+
+        double distance = distance(positionX, positionY, targetX, targetY);
 
         if (distance < 0.5)
         {
             return;
         }
 
-        double angleToTarget = angleTo(robotPositionX, robotPositionY, targetX, targetY);
+        double angleToTarget = angleTo(positionX, positionY, targetX, targetY);
         double angularVelocity = 0;
 
+        //Заменить на тернарный оператор
         if(robotDirection - angleToTarget > Math.PI){
             robotDirection -= 2*Math.PI;
         }
@@ -35,14 +57,7 @@ public class GameModel {
             robotDirection += 2*Math.PI;
         }
 
-
-        if (angleToTarget > robotDirection)
-        {
-            angularVelocity = maxAngularVelocity;
-        }
-        else{
-            angularVelocity = -maxAngularVelocity;
-        }
+        angularVelocity = (angleToTarget > robotDirection) ? maxAngularVelocity : -maxAngularVelocity;
 
         moveRobot(maxVelocity, angularVelocity, duration);
     }
@@ -77,23 +92,25 @@ public class GameModel {
         velocity = applyLimits(velocity, 0, maxVelocity);
         angularVelocity = applyLimits(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
 
-        double newX = robotPositionX + velocity / angularVelocity *
+        double newX = positionX + velocity / angularVelocity *
                 (Math.sin(robotDirection + angularVelocity * duration) - Math.sin(robotDirection));
         if (!Double.isFinite(newX))
         {
-            newX = robotPositionX + velocity * duration * Math.cos(robotDirection);
+            newX = positionX + velocity * duration * Math.cos(robotDirection);
         }
 
-        double newY = robotPositionY - velocity / angularVelocity *
+        double newY = positionY - velocity / angularVelocity *
                 (Math.cos(robotDirection + angularVelocity * duration) - Math.cos(robotDirection));
         if (!Double.isFinite(newY))
         {
-            newY = robotPositionY + velocity * duration * Math.sin(robotDirection);
+            newY = positionY + velocity * duration * Math.sin(robotDirection);
         }
 
-        robotPositionX = newX;
-        robotPositionY = newY;
+        positionX = newX;
+        positionY = newY;
         robotDirection = asNormalizedRadians(robotDirection + angularVelocity * duration);
+
+        notifyObservers();
     }
 
     private static double asNormalizedRadians(double angle)
@@ -108,12 +125,5 @@ public class GameModel {
         }
         return angle;
     }
-
-    public int round(double value)
-    {
-        return (int)(value + 0.5);
-    }
-    public double[] getRobotPosition(){
-        double[] coords = {robotPositionX, robotPositionY}; return coords;}
     public double getRobotDirection() {return robotDirection; }
 }

@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import view.menuBar.MenuBarGenerator;
+import view.visualizers.GameVisualizer;
 
 import static view.windows.WindowManager.*;
 
@@ -16,13 +17,13 @@ public class MainApplicationFrame extends JFrame
 {
     private final JDesktopPane desktopPane = new JDesktopPane();
 
-    public MainApplicationFrame() {
+    public MainApplicationFrame(GameVisualizer someVisualizer) {
 
         setScreenAndBounds(returnInset(50));
 
         setContentPane(desktopPane);
         addWindow(desktopPane, createLogWindow());
-        addWindow(desktopPane, createGameWindow(400, 400));
+        addWindow(desktopPane, createGameWindow(someVisualizer, 400, 400));
         addWindow(desktopPane, createLocationWindow(400, 200));
 
         MenuBarGenerator barGenerator = new MenuBarGenerator();

@@ -1,22 +1,18 @@
 package view.windows;
 
-import model.GameModel;
+import model.RobotEntity;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Класс для окна координат робота
+ */
 public class LocationWindow extends JInternalFrame {
-    private JLabel label;
-    private JPanel panel;
-    private GameModel robotModel = new GameModel();
-    private final java.util.Timer locTimer = initTimer();
-    private String coordinates = "Координаты робота X=%f Y=%f";
-    private static java.util.Timer initTimer()
-    {
-        java.util.Timer timer = new Timer("events generator", true);
-        return timer;
-    }
+    private final JLabel label;
+    private final JPanel panel;
+     String coordinates = "Координаты робота X=%f Y=%f";
     public LocationWindow()
     {
         super("Координаты робота", true, true, true, true);
@@ -26,15 +22,6 @@ public class LocationWindow extends JInternalFrame {
         getContentPane().add(panel);
         getContentPane().add(label);
         pack();
-
-        locTimer.schedule(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                updateCoordinates(robotModel.getRobotPosition());
-            }
-        }, 0, 10);
     }
 
     public void updateCoordinates(double[] robotPosition){

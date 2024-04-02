@@ -8,6 +8,9 @@ import log.LogChangeListener;
 import log.LogEntry;
 import log.LogWindowSource;
 
+/**
+ * Класс окна логов
+ */
 public class LogWindow extends JInternalFrame implements LogChangeListener
 {
     private LogWindowSource m_logSource;
