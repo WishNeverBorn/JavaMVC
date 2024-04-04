@@ -6,7 +6,6 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import view.menuBar.MenuBarGenerator;
 import view.visualizers.GameVisualizer;
-
 import static view.windows.WindowManager.*;
 
 /**
@@ -42,6 +41,5 @@ public class MainApplicationFrame extends JFrame
     private int returnInset(int insetValue){
         return insetValue;
     }
-
 }
 

@@ -1,16 +1,12 @@
 package view.menuBar;
 import java.awt.event.KeyEvent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
+
 import log.Logger;
 
 public class MenuBarGenerator extends JFrame {
     public MenuBarGenerator(){};
+    private final JDesktopPane desktopPane = new JDesktopPane();
     public JMenuBar generateMenuBar()
     {
         JMenuBar menuBar = new JMenuBar();
@@ -51,9 +47,35 @@ public class MenuBarGenerator extends JFrame {
             testMenu.add(addLogMessageItem);
         }
 
+        JMenu exitMenu = new JMenu("Система");
+        exitMenu.setMnemonic(KeyEvent.VK_X);
+        exitMenu.getAccessibleContext().setAccessibleDescription(
+                "Уаправление работой приложения");
+
+        {
+            JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
+            menuCloseOperation.addActionListener((event) -> closeWithConfirm());
+            exitMenu.add(menuCloseOperation);
+        }
+
         menuBar.add(lookAndFeelMenu);
         menuBar.add(testMenu);
+        menuBar.add(exitMenu);
         return menuBar;
+    }
+
+    private void closeWithConfirm()
+    {
+        int option = JOptionPane.showConfirmDialog(desktopPane,
+                "Вы уверены, что хотите закрыть приложение?",
+                "Подтверждение",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if(option == 0) {
+            setVisible(false);
+            dispose();
+            /*System.exit(0);*/
+        }
     }
 
     private void setLookAndFeel(String className)
