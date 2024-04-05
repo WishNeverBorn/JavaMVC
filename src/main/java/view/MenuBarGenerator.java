@@ -1,16 +1,29 @@
-package view.menuBar;
+package view;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 import log.Logger;
 
-public class MenuBarGenerator extends JFrame {
-    public MenuBarGenerator(){};
-    private final JDesktopPane desktopPane = new JDesktopPane();
+public class MenuBarGenerator extends ClosableFrame {
+
+    private final JDesktopPane desktopPane;
+    public MenuBarGenerator(JDesktopPane desktopPane)
+    {
+        this.desktopPane = desktopPane;
+    };
+
     public JMenuBar generateMenuBar()
     {
         JMenuBar menuBar = new JMenuBar();
 
+        menuBar.add(setLookAndFeelMenu());
+        menuBar.add(setTestMenu());
+        menuBar.add(setSystemMenu());
+        return menuBar;
+    }
+
+    private JMenu setLookAndFeelMenu()
+    {
         JMenu lookAndFeelMenu = new JMenu("Режим отображения");
         lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
         lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
@@ -34,48 +47,7 @@ public class MenuBarGenerator extends JFrame {
             lookAndFeelMenu.add(crossplatformLookAndFeel);
         }
 
-        JMenu testMenu = new JMenu("Тесты");
-        testMenu.setMnemonic(KeyEvent.VK_T);
-        testMenu.getAccessibleContext().setAccessibleDescription(
-                "Тестовые команды");
-
-        {
-            JMenuItem addLogMessageItem = new JMenuItem("Сообщение в лог", KeyEvent.VK_S);
-            addLogMessageItem.addActionListener((event) -> {
-                Logger.debug("Новая строка");
-            });
-            testMenu.add(addLogMessageItem);
-        }
-
-        JMenu exitMenu = new JMenu("Система");
-        exitMenu.setMnemonic(KeyEvent.VK_X);
-        exitMenu.getAccessibleContext().setAccessibleDescription(
-                "Уаправление работой приложения");
-
-        {
-            JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
-            menuCloseOperation.addActionListener((event) -> closeWithConfirm());
-            exitMenu.add(menuCloseOperation);
-        }
-
-        menuBar.add(lookAndFeelMenu);
-        menuBar.add(testMenu);
-        menuBar.add(exitMenu);
-        return menuBar;
-    }
-
-    private void closeWithConfirm()
-    {
-        int option = JOptionPane.showConfirmDialog(desktopPane,
-                "Вы уверены, что хотите закрыть приложение?",
-                "Подтверждение",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-        if(option == 0) {
-            setVisible(false);
-            dispose();
-            /*System.exit(0);*/
-        }
+        return lookAndFeelMenu;
     }
 
     private void setLookAndFeel(String className)
@@ -90,5 +62,39 @@ public class MenuBarGenerator extends JFrame {
         {
             // just ignore
         }
+    }
+
+    private JMenu setTestMenu()
+    {
+        JMenu testMenu = new JMenu("Тесты");
+        testMenu.setMnemonic(KeyEvent.VK_T);
+        testMenu.getAccessibleContext().setAccessibleDescription(
+                "Тестовые команды");
+
+        {
+            JMenuItem addLogMessageItem = new JMenuItem("Сообщение в лог", KeyEvent.VK_S);
+            addLogMessageItem.addActionListener((event) -> {
+                Logger.debug("Новая строка");
+            });
+            testMenu.add(addLogMessageItem);
+        }
+
+        return testMenu;
+    }
+
+    private JMenu setSystemMenu()
+    {
+        JMenu systemMenu = new JMenu("Система");
+        systemMenu.setMnemonic(KeyEvent.VK_X);
+        systemMenu.getAccessibleContext().setAccessibleDescription(
+                "Уаправление работой приложения");
+
+        {
+            JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
+            menuCloseOperation.addActionListener((event) -> closeWithConfirm(desktopPane));
+            systemMenu.add(menuCloseOperation);
+        }
+
+        return systemMenu;
     }
 }
