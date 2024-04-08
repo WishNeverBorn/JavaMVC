@@ -4,12 +4,14 @@ import javax.swing.*;
 
 import log.Logger;
 
-public class MenuBarGenerator extends ClosableFrame {
+public class MenuBarGenerator {
 
     private final JDesktopPane desktopPane;
-    public MenuBarGenerator(JDesktopPane desktopPane)
+    private final MainApplicationFrame mainApplicationFrame;
+    public MenuBarGenerator(MainApplicationFrame mainApplicationFrame)
     {
-        this.desktopPane = desktopPane;
+        this.desktopPane = mainApplicationFrame.getDesktopPane();
+        this.mainApplicationFrame = mainApplicationFrame;
     };
 
     public JMenuBar generateMenuBar()
@@ -33,7 +35,7 @@ public class MenuBarGenerator extends ClosableFrame {
             JMenuItem systemLookAndFeel = new JMenuItem("Системная схема", KeyEvent.VK_S);
             systemLookAndFeel.addActionListener((event) -> {
                 setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                this.invalidate();
+                desktopPane.invalidate();
             });
             lookAndFeelMenu.add(systemLookAndFeel);
         }
@@ -42,7 +44,7 @@ public class MenuBarGenerator extends ClosableFrame {
             JMenuItem crossplatformLookAndFeel = new JMenuItem("Универсальная схема", KeyEvent.VK_S);
             crossplatformLookAndFeel.addActionListener((event) -> {
                 setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                this.invalidate();
+                desktopPane.invalidate();
             });
             lookAndFeelMenu.add(crossplatformLookAndFeel);
         }
@@ -55,7 +57,7 @@ public class MenuBarGenerator extends ClosableFrame {
         try
         {
             UIManager.setLookAndFeel(className);
-            SwingUtilities.updateComponentTreeUI(this);
+            SwingUtilities.updateComponentTreeUI(desktopPane);
         }
         catch (ClassNotFoundException | InstantiationException
                | IllegalAccessException | UnsupportedLookAndFeelException e)
@@ -91,7 +93,7 @@ public class MenuBarGenerator extends ClosableFrame {
 
         {
             JMenuItem menuCloseOperation = new JMenuItem("Закрыть приложение", KeyEvent.VK_X);
-            menuCloseOperation.addActionListener((event) -> closeWithConfirm(desktopPane));
+            menuCloseOperation.addActionListener((event) -> mainApplicationFrame.closeWithConfirm(desktopPane));
             systemMenu.add(menuCloseOperation);
         }
 

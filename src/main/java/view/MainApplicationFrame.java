@@ -2,8 +2,6 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import view.visualizers.GameVisualizer;
@@ -26,12 +24,16 @@ public class MainApplicationFrame extends ClosableFrame
         addWindow(desktopPane, createGameWindow(someVisualizer, 400, 400));
         addWindow(desktopPane, createLocationWindow(400, 200));
 
-        MenuBarGenerator barGenerator = new MenuBarGenerator(desktopPane);
+        MenuBarGenerator barGenerator = new MenuBarGenerator(this);
         setJMenuBar(barGenerator.generateMenuBar());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setWindowListener(desktopPane);
 
+    }
+
+    public JDesktopPane getDesktopPane() {
+        return desktopPane;
     }
 
     private void setScreenAndBounds(int inset){
