@@ -1,23 +1,57 @@
 package controller;
+import model.RobotEntity;
 import view.visualizers.GameVisualizer;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Класс контроллер, осуществляет взаимодействие пользователя с программой
- * Занимается валидацией данных полученных от пользователся и их передачей в модель
+ * В данный момент подключает визуализатор для отрисовки графики
  */
-public class ApplicationController {
-    public ApplicationController(GameVisualizer view){
-        Timer someTimer = new Timer("event generator", true);
-        someTimer.schedule(new TimerTask()
+public class ApplicationController extends JPanel {
+    private final RobotEntity robotEntity = new RobotEntity();
+    private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity);
+    private boolean isGameStarted = false;
+    public ApplicationController(){
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(new KeyAdapter()
         {
             @Override
-            public void run()
-            {
-                view.onModelUpdateEvent();
+            public void keyPressed(KeyEvent e) {
+                processCode(e.getKeyCode());
             }
-        }, 0, 10);
+        });
+    }
+    private void processCode(int commandCode){
+        switch(commandCode){
+            case KeyEvent.VK_ENTER -> {
+                if(!isGameStarted){
+                    Timer timer = new Timer(10, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            robotEntity.moveRobot(10);
+                            gameVisualizer.onModelUpdateEvent();
+                        }
+                    });
+                    timer.start();
+                    isGameStarted = true;
+                }
+            }
+            default -> {
+                if(isGameStarted) {
+                    robotEntity.directByKey(commandCode);
+                }
+            }
+        }
+    }
+    public RobotEntity getRobotEntity(){
+        return robotEntity;
+    }
+    public GameVisualizer getGameVisualizer(){
+        return gameVisualizer;
     }
 }

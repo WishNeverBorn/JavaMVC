@@ -8,7 +8,6 @@ public class TargetEntity extends Entity {
         super(300, 300);
     }
     public void updatePosition(double X, double Y){
-        positionX = X;
-        positionY = Y;
+        this.entityPoint.setLocation(X, Y);
     }
 }
