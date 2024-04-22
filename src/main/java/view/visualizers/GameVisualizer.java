@@ -19,16 +19,33 @@ import javax.swing.*;
 public class GameVisualizer extends JPanel implements Observer
 {
     private final RobotEntity robot;
+    private final TargetEntity target;
 
-    public GameVisualizer(RobotEntity robotEntity)
+    public GameVisualizer(RobotEntity robotEntity, TargetEntity targetEntity)
     {
         robot = robotEntity;
+        target = targetEntity;
         robot.addObserver(this);
+        target.addObserver(this);
         setDoubleBuffered(true);
     }
     public void onModelUpdateEvent()
     {
+        double distance = distance(target.getEntityCoordinates().getX(), target.getEntityCoordinates().getY(),
+                robot.getEntityCoordinates().getX(), robot.getEntityCoordinates().getY());
+        if (distance < 2)
+        {
+            target.updatePosition();
+            return;
+        }
         robot.moveRobot(10);
+    }
+
+    private static double distance(double x1, double y1, double x2, double y2)
+    {
+        double diffX = x1 - x2;
+        double diffY = y1 - y2;
+        return Math.sqrt(diffX * diffX + diffY * diffY);
     }
     @Override
     public void update() {
@@ -40,6 +57,7 @@ public class GameVisualizer extends JPanel implements Observer
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
         drawRobot(g2d, robot);
+        drawTarget(g2d, target);
     }
     public static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2)
     {

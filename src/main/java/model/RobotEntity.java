@@ -7,27 +7,12 @@ import java.util.ArrayList;
 /**
  * Класс модели робота, занимается рассчетами траектории движения робота относительно цели
  */
-public class RobotEntity extends Entity implements Observable{
+public class RobotEntity extends Entity {
     private double robotDirection = 0;
     private static final double maxVelocity = 0.1;
     private static final double maxAngularVelocity = 0.000;
-    private final ArrayList<GameVisualizer> observers = new ArrayList<>();
     public RobotEntity(){
         super(100, 100);
-    }
-    @Override
-    public void addObserver(GameVisualizer observer) {
-        observers.add(observer);
-    }
-    @Override
-    public void removeObserver(GameVisualizer observer) {
-        observers.remove(observer);
-    }
-    @Override
-    public void notifyObservers() {
-        for (GameVisualizer observer : observers) {
-            observer.update();
-        }
     }
     public void directByKey(int keyCode){
         robotDirection = setDirection(keyCode);

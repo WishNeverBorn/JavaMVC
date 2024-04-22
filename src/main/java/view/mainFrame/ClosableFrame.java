@@ -1,4 +1,4 @@
-package view.menuBar;
+package view.mainFrame;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
  */
 public class ClosableFrame extends JFrame {
 
-    protected void setWindowListener(JDesktopPane desktopPane)
+    protected void setWindowListenerOnClosing(JDesktopPane desktopPane)
     {
         addWindowListener(new WindowAdapter()
         {

@@ -1,5 +1,6 @@
 package controller;
 import model.RobotEntity;
+import model.TargetEntity;
 import view.visualizers.GameVisualizer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,8 @@ import java.awt.event.KeyEvent;
  */
 public class ApplicationController extends JPanel {
     private final RobotEntity robotEntity = new RobotEntity();
-    private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity);
+    private final TargetEntity targetEntity = new TargetEntity();
+    private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity, targetEntity);
     private boolean isGameStarted = false;
     public ApplicationController(){
         setFocusable(true);

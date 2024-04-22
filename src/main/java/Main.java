@@ -1,6 +1,6 @@
 import controller.ApplicationController;
-import view.MainApplicationFrame;
-import view.visualizers.GameVisualizer;
+import view.mainFrame.MainApplicationFrame;
+
 import java.awt.Frame;
 import javax.swing.SwingUtilities;
 import java.util.Locale;
@@ -34,10 +34,6 @@ public class Main
             UIManager.put("OptionPane.noButtonText",
                     ResourceBundle.getBundle("lang", locale)
                             .getString("option.no"));
-            //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.setLookAndFeel(UIManager.getCыrossPlatformLookAndFeelClassName());
         }
         catch (Exception e)
         {

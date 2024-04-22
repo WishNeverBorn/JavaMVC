@@ -1,9 +1,8 @@
-package view.menuBar;
+package view.mainFrame;
 
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import log.Logger;
-import view.MainApplicationFrame;
 
 /**
  * Класс генератора панели меню

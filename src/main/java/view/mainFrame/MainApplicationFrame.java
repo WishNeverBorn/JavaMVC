@@ -1,4 +1,4 @@
-package view;
+package view.mainFrame;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -6,8 +6,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import controller.ApplicationController;
-import view.menuBar.ClosableFrame;
-import view.menuBar.MenuBarGenerator;
 import static view.windows.WindowManager.*;
 
 /**
@@ -31,8 +29,9 @@ public class MainApplicationFrame extends ClosableFrame
         setJMenuBar(barGenerator.generateMenuBar());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setWindowListener(desktopPane);
+        setWindowListenerOnClosing(desktopPane);
 
+        //вывести в логи
         addKeyListener(new KeyAdapter()
         {
             @Override
