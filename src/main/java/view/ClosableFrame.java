@@ -1,9 +1,13 @@
-package view;
+package view.menuBar;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Класс закрываемого окна
+ * Содержит реализацию методов для безопасного закрытия окна
+ */
 public class ClosableFrame extends JFrame {
 
     protected void setWindowListener(JDesktopPane desktopPane)
@@ -32,7 +36,7 @@ public class ClosableFrame extends JFrame {
         if(option == 0) {
             setVisible(false);
             dispose();
-//            System.exit(0);
+            //System.exit(0);
         }
     }
 }

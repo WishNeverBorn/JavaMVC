@@ -2,56 +2,37 @@ package view.visualizers;
 
 import model.RobotEntity;
 import model.TargetEntity;
-
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import javax.swing.JPanel;
+import java.awt.geom.Point2D;
+import javax.swing.*;
 
 /**
  * Класс визуализатор на данный момент некорректный
  * Совмещает функционал контроллера и визуализатора
  * Задачи:
- * 1. MouseListener по-хорошему надо вынести в контроллер, пока что не получилось
+ * 1. MouseListener по-хорошему надо вынести в контроллер (или нет? контроллер же регулирует работу визуализатора)
+ * 2. Сделать общего для визуализаторов предка (абстрактный  класс AbstractVisializer)
  */
 public class GameVisualizer extends JPanel implements Observer
 {
-    private RobotEntity robot = new RobotEntity();
-    private TargetEntity target = new TargetEntity();
-    public GameVisualizer()
-    {
-        addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                modelsUpdateEvent(e);
-            }
-        });
+    private final RobotEntity robot;
 
+    public GameVisualizer(RobotEntity robotEntity)
+    {
+        robot = robotEntity;
         robot.addObserver(this);
         setDoubleBuffered(true);
     }
-    public void modelsUpdateEvent(MouseEvent e){
-        target.updatePosition(e.getPoint().x, e.getPoint().y);
-        onModelUpdateEvent();
-    }
     public void onModelUpdateEvent()
     {
-        double[] targetCoordinate = target.getEntityCoordinates();
-        robot.updatePosition(10, targetCoordinate);
-    }
-    protected void onRedrawEvent()
-    {
-        EventQueue.invokeLater(this::repaint);
+        robot.moveRobot(10);
     }
     @Override
     public void update() {
-        onRedrawEvent();
+        repaint();
     }
     @Override
     public void paint(Graphics g)
@@ -59,7 +40,6 @@ public class GameVisualizer extends JPanel implements Observer
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
         drawRobot(g2d, robot);
-        drawTarget(g2d, target);
     }
     public static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2)
     {
@@ -71,9 +51,9 @@ public class GameVisualizer extends JPanel implements Observer
     }
     private void drawRobot(Graphics2D g, RobotEntity robotModel)
     {
-        double[] coordinate = robot.getEntityCoordinates();
-        int robotCenterX = robot.round(coordinate[0]);
-        int robotCenterY = robot.round(coordinate[1]);
+        Point2D robotLocation = robot.getEntityCoordinates();
+        int robotCenterX = robot.round(robotLocation.getX());
+        int robotCenterY = robot.round(robotLocation.getY());
 
         AffineTransform t = AffineTransform.getRotateInstance(robotModel.getRobotDirection(), robotCenterX, robotCenterY);
         g.setTransform(t);
@@ -88,9 +68,9 @@ public class GameVisualizer extends JPanel implements Observer
     }
     private void drawTarget(Graphics2D g, TargetEntity target)
     {
-        double[] position = target.getEntityCoordinates();
-        int targetX = target.round(position[0]);
-        int targetY = target.round(position[1]);
+        Point2D robotLocation = target.getEntityCoordinates();
+        int targetX = target.round(robotLocation.getX());
+        int targetY = target.round(robotLocation.getY());
 
         AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
         g.setTransform(t);

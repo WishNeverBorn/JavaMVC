@@ -10,14 +10,21 @@ import javax.swing.*;
 /**
  * Main класс
  * Точка входа в программу
+ *
+ * Идеи для развития проекта:
+ * 1.Хочется дать игроку более гибкое управление - переделать управление движением под нажатие клавиш
+ *
+ * 2.В случае ручного управления мишень для контроля движения становится ненужной - можно сделать из нее игровой объект
+ *  2.1.Наш робот может "подбирать" эти объекты и получать за них очки
+ *
+ * 3.Окно для отображения координат робота можно использовать для отображения раскладки, либо для отображения общего счета очков
  */
 public class Main
 {
     public static void main(String[] args)
     {
         Locale locale = new Locale("ru", "RU");
-        GameVisualizer m_visualizer = new GameVisualizer();
-        ApplicationController m_controller = new ApplicationController(m_visualizer);
+        ApplicationController controller = new ApplicationController();
 
         try
         {
@@ -30,7 +37,7 @@ public class Main
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            //UIManager.setLookAndFeel(UIManager.getCыrossPlatformLookAndFeelClassName());
         }
         catch (Exception e)
         {
@@ -38,7 +45,7 @@ public class Main
         }
         SwingUtilities.invokeLater(() ->
         {
-            MainApplicationFrame frame = new MainApplicationFrame(m_visualizer);
+            MainApplicationFrame frame = new MainApplicationFrame(controller);
             frame.pack();
             frame.setVisible(true);
             frame.setExtendedState(Frame.MAXIMIZED_BOTH);

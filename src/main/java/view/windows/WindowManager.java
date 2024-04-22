@@ -1,14 +1,13 @@
 package view.windows;
 
+import controller.ApplicationController;
 import log.Logger;
-import view.visualizers.GameVisualizer;
-
 import javax.swing.*;
 
 /**
  * Класс менеджера для создания окон
  * TODO
- * выделить abstract class для обобщения
+ * выделить abstract class для обобщения?
  */
 public class WindowManager {
     public static void addWindow(JDesktopPane desktopPane, JInternalFrame frame){
@@ -27,9 +26,9 @@ public class WindowManager {
         return lgWindow;
     }
 
-    public static GameWindow createGameWindow(GameVisualizer someVisualizer, int width, int height)
+    public static GameWindow createGameWindow(ApplicationController controller, int width, int height)
     {
-        GameWindow gameWindow = new GameWindow(someVisualizer);
+        GameWindow gameWindow = new GameWindow(controller);
         gameWindow.setSize(width, height);
         return gameWindow;
     }
