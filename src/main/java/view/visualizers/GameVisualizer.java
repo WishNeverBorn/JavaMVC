@@ -29,24 +29,7 @@ public class GameVisualizer extends JPanel implements Observer
         target.addObserver(this);
         setDoubleBuffered(true);
     }
-    public void onModelUpdateEvent()
-    {
-        double distance = distance(target.getEntityCoordinates().getX(), target.getEntityCoordinates().getY(),
-                robot.getEntityCoordinates().getX(), robot.getEntityCoordinates().getY());
-        if (distance < 2)
-        {
-            target.updatePosition();
-            return;
-        }
-        robot.moveRobot(10);
-    }
 
-    private static double distance(double x1, double y1, double x2, double y2)
-    {
-        double diffX = x1 - x2;
-        double diffY = y1 - y2;
-        return Math.sqrt(diffX * diffX + diffY * diffY);
-    }
     @Override
     public void update() {
         repaint();

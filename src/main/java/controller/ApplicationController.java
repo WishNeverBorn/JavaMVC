@@ -32,13 +32,7 @@ public class ApplicationController extends JPanel {
         switch(commandCode){
             case KeyEvent.VK_ENTER -> {
                 if(!isGameStarted){
-                    Timer timer = new Timer(10, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            robotEntity.moveRobot(10);
-                            gameVisualizer.onModelUpdateEvent();
-                        }
-                    });
+                    Timer timer = new Timer(10, e -> robotEntity.moveRobot(25));
                     timer.start();
                     isGameStarted = true;
                 }

@@ -29,7 +29,7 @@ public class WindowManager {
     public static GameWindow createGameWindow(ApplicationController controller)
     {
         GameWindow gameWindow = new GameWindow(controller);
-        gameWindow.setSize(400, 400);
+        gameWindow.setSize(600, 600);
         Point location = new Point(300, 10);
         gameWindow.setLocation(location);
         return gameWindow;
@@ -38,8 +38,8 @@ public class WindowManager {
     public static LocationWindow createLocationWindow()
     {
         LocationWindow locationWindow = new LocationWindow();
-        locationWindow.setSize(400, 200);
-        Point location = new Point(800, 10);
+        locationWindow.setSize(250, 200);
+        Point location = new Point(1000, 10);
         locationWindow.setLocation(location);
         return locationWindow;
     }
