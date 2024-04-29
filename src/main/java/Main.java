@@ -39,6 +39,7 @@ public class Main
         {
             e.printStackTrace();
         }
+
         SwingUtilities.invokeLater(() ->
         {
             MainApplicationFrame frame = new MainApplicationFrame(controller);

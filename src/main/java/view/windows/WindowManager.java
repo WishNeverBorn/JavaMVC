@@ -3,6 +3,7 @@ package view.windows;
 import controller.ApplicationController;
 import log.Logger;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Класс менеджера для создания окон
@@ -17,26 +18,29 @@ public class WindowManager {
 
     public static LogWindow createLogWindow()
     {
-        LogWindow lgWindow = new LogWindow(Logger.getDefaultLogSource());
-        lgWindow.setLocation(10,10);
-        lgWindow.setSize(300, 800);
-        lgWindow.setMinimumSize(lgWindow.getSize());
-        lgWindow.pack();
+        LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
+        logWindow.setSize(200, 600);
+        Point location = new Point(10, 10);
+        logWindow.setLocation(location);
         Logger.debug("Протокол работает");
-        return lgWindow;
+        return logWindow;
     }
 
-    public static GameWindow createGameWindow(ApplicationController controller, int width, int height)
+    public static GameWindow createGameWindow(ApplicationController controller)
     {
         GameWindow gameWindow = new GameWindow(controller);
-        gameWindow.setSize(width, height);
+        gameWindow.setSize(400, 400);
+        Point location = new Point(300, 10);
+        gameWindow.setLocation(location);
         return gameWindow;
     }
 
-    public static LocationWindow createLocationWindow(int width, int height)
+    public static LocationWindow createLocationWindow()
     {
         LocationWindow locationWindow = new LocationWindow();
-        locationWindow.setSize(width, height);
+        locationWindow.setSize(400, 200);
+        Point location = new Point(800, 10);
+        locationWindow.setLocation(location);
         return locationWindow;
     }
 

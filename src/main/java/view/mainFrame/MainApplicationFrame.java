@@ -1,7 +1,6 @@
 package view.mainFrame;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
@@ -22,8 +21,8 @@ public class MainApplicationFrame extends ClosableFrame
 
         setContentPane(desktopPane);
         addWindow(desktopPane, createLogWindow());
-        addWindow(desktopPane, createGameWindow(controller, 400, 400));
-        addWindow(desktopPane, createLocationWindow(400, 200));
+        addWindow(desktopPane, createGameWindow(controller));
+        addWindow(desktopPane, createLocationWindow());
 
         MenuBarGenerator barGenerator = new MenuBarGenerator(this);
         setJMenuBar(barGenerator.generateMenuBar());
