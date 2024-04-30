@@ -3,6 +3,7 @@ package view.windows;
 import controller.ApplicationController;
 import log.Logger;
 import javax.swing.*;
+import java.util.List;
 
 /**
  * Класс менеджера для создания окон
@@ -10,9 +11,11 @@ import javax.swing.*;
  * выделить abstract class для обобщения?
  */
 public class WindowManager {
-    public static void addWindow(JDesktopPane desktopPane, JInternalFrame frame){
-        desktopPane.add(frame);
-        frame.setVisible(true);
+    public static void addListWindows(JDesktopPane desktopPane, List<JInternalFrame> frames){
+        for(JInternalFrame frame : frames){
+            desktopPane.add(frame);
+            frame.setVisible(true);
+        }
     }
 
     public static LogWindow createLogWindow()
@@ -33,11 +36,11 @@ public class WindowManager {
         return gameWindow;
     }
 
-    public static LocationWindow createLocationWindow(int width, int height)
+    public static InformationWindow createLocationWindow(int width, int height)
     {
-        LocationWindow locationWindow = new LocationWindow();
-        locationWindow.setSize(width, height);
-        return locationWindow;
+        InformationWindow informationWindow = new InformationWindow();
+        informationWindow.setSize(width, height);
+        return informationWindow;
     }
 
 }

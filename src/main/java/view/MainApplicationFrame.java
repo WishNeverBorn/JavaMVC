@@ -4,10 +4,13 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 import controller.ApplicationController;
 import view.menuBar.ClosableFrame;
 import view.menuBar.MenuBarGenerator;
+import view.windowsSerializer.WindowSerializer;
+
 import static view.windows.WindowManager.*;
 
 /**
@@ -17,21 +20,22 @@ import static view.windows.WindowManager.*;
 public class MainApplicationFrame extends ClosableFrame
 {
     private final JDesktopPane desktopPane = new JDesktopPane();
-
-    public MainApplicationFrame(ApplicationController controller) {
-
+    private final ArrayList<JInternalFrame> frames = new ArrayList<>();
+    public MainApplicationFrame(ApplicationController controller, WindowSerializer serializer) {
         setScreenAndBounds(returnInset(50));
-
         setContentPane(desktopPane);
-        addWindow(desktopPane, createLogWindow());
-        addWindow(desktopPane, createGameWindow(controller, 400, 400));
-        addWindow(desktopPane, createLocationWindow(400, 200));
+
+        frames.add(createLocationWindow(400, 400));
+        frames.add(createLogWindow());
+        frames.add(createGameWindow(controller, 400, 400));
+        addListWindows(desktopPane, frames);
+        serializer.loadWindows(frames);
 
         MenuBarGenerator barGenerator = new MenuBarGenerator(this);
         setJMenuBar(barGenerator.generateMenuBar());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setWindowListener(desktopPane);
+        setWindowListener(desktopPane, serializer);
 
         addKeyListener(new KeyAdapter()
         {
@@ -45,7 +49,6 @@ public class MainApplicationFrame extends ClosableFrame
     public JDesktopPane getDesktopPane() {
         return desktopPane;
     }
-
     private void setScreenAndBounds(int inset){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,

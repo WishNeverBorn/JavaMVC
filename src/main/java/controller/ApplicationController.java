@@ -1,5 +1,6 @@
 package controller;
 import model.RobotEntity;
+import model.TargetEntity;
 import view.visualizers.GameVisualizer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,8 +14,16 @@ import java.awt.event.KeyEvent;
  */
 public class ApplicationController extends JPanel {
     private final RobotEntity robotEntity = new RobotEntity();
-    private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity);
-    private boolean isGameStarted = false;
+    private final TargetEntity targetEntity = new TargetEntity();
+    private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity, targetEntity);
+    Timer timer = new Timer(10, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            robotEntity.setTargetPosition(targetEntity.getEntityCoordinates());
+            robotEntity.moveRobot(10);
+        }
+    });
+    private boolean isGamePaused = true;
     public ApplicationController(){
         setFocusable(true);
         requestFocusInWindow();
@@ -29,20 +38,19 @@ public class ApplicationController extends JPanel {
     private void processCode(int commandCode){
         switch(commandCode){
             case KeyEvent.VK_ENTER -> {
-                if(!isGameStarted){
-                    Timer timer = new Timer(10, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            robotEntity.moveRobot(10);
-                            gameVisualizer.onModelUpdateEvent();
-                        }
-                    });
+                if(isGamePaused){
                     timer.start();
-                    isGameStarted = true;
+                    gameVisualizer.hidePauseWindow();
+                    isGamePaused = false;
+                }
+                else{
+                    timer.stop();
+                    gameVisualizer.showPauseWindow();
+                    isGamePaused = true;
                 }
             }
             default -> {
-                if(isGameStarted) {
+                if(!isGamePaused) {
                     robotEntity.directByKey(commandCode);
                 }
             }

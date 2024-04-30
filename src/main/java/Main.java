@@ -1,6 +1,8 @@
 import controller.ApplicationController;
 import view.MainApplicationFrame;
 import view.visualizers.GameVisualizer;
+import view.windowsSerializer.WindowSerializer;
+
 import java.awt.Frame;
 import javax.swing.SwingUtilities;
 import java.util.Locale;
@@ -25,6 +27,7 @@ public class Main
     {
         Locale locale = new Locale("ru", "RU");
         ApplicationController controller = new ApplicationController();
+        WindowSerializer serializer = new WindowSerializer();
 
         try
         {
@@ -37,7 +40,7 @@ public class Main
             //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.setLookAndFeel(UIManager.getCыrossPlatformLookAndFeelClassName());
+            //UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         }
         catch (Exception e)
         {
@@ -45,10 +48,11 @@ public class Main
         }
         SwingUtilities.invokeLater(() ->
         {
-            MainApplicationFrame frame = new MainApplicationFrame(controller);
+            MainApplicationFrame frame = new MainApplicationFrame(controller, serializer);
             frame.pack();
             frame.setVisible(true);
             frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+            serializer.loadWindowPositions();
         });
     }}
 

@@ -1,5 +1,7 @@
 package view.menuBar;
 
+import view.windowsSerializer.WindowSerializer;
+
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -9,9 +11,11 @@ import java.awt.event.WindowEvent;
  * Содержит реализацию методов для безопасного закрытия окна
  */
 public class ClosableFrame extends JFrame {
+    WindowSerializer in_serializer;
 
-    protected void setWindowListener(JDesktopPane desktopPane)
+    protected void setWindowListener(JDesktopPane desktopPane, WindowSerializer serializer)
     {
+        in_serializer = serializer;
         addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent e)
@@ -34,6 +38,7 @@ public class ClosableFrame extends JFrame {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if(option == 0) {
+            in_serializer.saveWindowPositions();
             setVisible(false);
             dispose();
             //System.exit(0);

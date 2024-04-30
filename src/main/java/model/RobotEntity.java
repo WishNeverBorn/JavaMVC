@@ -1,7 +1,10 @@
 package model;
 
 import view.visualizers.GameVisualizer;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +14,7 @@ public class RobotEntity extends Entity implements Observable{
     private double robotDirection = 0;
     private static final double maxVelocity = 0.1;
     private static final double maxAngularVelocity = 0.000;
+    private Point2D targetPosition;
     private final ArrayList<GameVisualizer> observers = new ArrayList<>();
     public RobotEntity(){
         super(100, 100);
@@ -94,4 +98,7 @@ public class RobotEntity extends Entity implements Observable{
         return angle;
     }
     public double getRobotDirection() {return robotDirection; }
+    public void setTargetPosition(Point2D location){
+        targetPosition = location;
+    }
 }
