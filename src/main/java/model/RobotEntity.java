@@ -1,37 +1,18 @@
 package model;
 
-import view.visualizers.GameVisualizer;
-
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * Класс модели робота, занимается рассчетами траектории движения робота относительно цели
  */
-public class RobotEntity extends Entity implements Observable{
+public class RobotEntity extends Entity {
     private double robotDirection = 0;
-    private static final double maxVelocity = 0.1;
+    private static final double maxVelocity = 0.2;
     private static final double maxAngularVelocity = 0.000;
-    private Point2D targetPosition;
-    private final ArrayList<GameVisualizer> observers = new ArrayList<>();
-    public RobotEntity(){
+    private final TargetEntity target;
+    public RobotEntity(TargetEntity targetEntity){
         super(100, 100);
-    }
-    @Override
-    public void addObserver(GameVisualizer observer) {
-        observers.add(observer);
-    }
-    @Override
-    public void removeObserver(GameVisualizer observer) {
-        observers.remove(observer);
-    }
-    @Override
-    public void notifyObservers() {
-        for (GameVisualizer observer : observers) {
-            observer.update();
-        }
+        target = targetEntity;
     }
     public void directByKey(int keyCode){
         robotDirection = setDirection(keyCode);
@@ -98,7 +79,4 @@ public class RobotEntity extends Entity implements Observable{
         return angle;
     }
     public double getRobotDirection() {return robotDirection; }
-    public void setTargetPosition(Point2D location){
-        targetPosition = location;
-    }
 }

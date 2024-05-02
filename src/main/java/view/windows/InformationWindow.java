@@ -4,14 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Класс для окна координат робота
+ * Класс информации по игре, содержит справку по управлению
+ * TODO:
+ *  Добавить панельку которая делает подсчет игровых очков
  */
 public class InformationWindow extends JInternalFrame {
-    private final JLabel label;
-    private final JPanel panel;
-    String coordinates = "Управление\n"
-            + "Enter - начать игру\n"
-            + "Пробел - пауза\n"
+    String manual = "Управление\n"
+            + "Enter - начать игру/приостановить игру\n"
             + "W - направление вверх\n"
             + "A - направление влево\n"
             + "S - направление вниз\n"
@@ -19,14 +18,10 @@ public class InformationWindow extends JInternalFrame {
     public InformationWindow()
     {
         super("Окно справки", true, true, true, true);
-        panel = new JPanel(new BorderLayout());
-        label = new JLabel("<html>" + coordinates.replace("\n", "<br>") + "</html>");
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel controlsLabel = new JLabel("<html>" + manual.replace("\n", "<br>") + "</html>");
         getContentPane().add(panel);
-        getContentPane().add(label, BorderLayout.CENTER);
+        getContentPane().add(controlsLabel, BorderLayout.WEST);
         pack();
-    }
-
-    public void updateCoordinates(double[] robotPosition){
-        label.setText(String.format(coordinates, robotPosition[0], robotPosition[1]));
     }
 }

@@ -1,10 +1,9 @@
 package controller;
+
 import model.RobotEntity;
 import model.TargetEntity;
 import view.visualizers.GameVisualizer;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -13,18 +12,22 @@ import java.awt.event.KeyEvent;
  * В данный момент подключает визуализатор для отрисовки графики
  */
 public class ApplicationController extends JPanel {
-    private final RobotEntity robotEntity = new RobotEntity();
     private final TargetEntity targetEntity = new TargetEntity();
+    private final RobotEntity robotEntity = new RobotEntity(targetEntity);
     private final GameVisualizer gameVisualizer = new GameVisualizer(robotEntity, targetEntity);
-    Timer timer = new Timer(10, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            robotEntity.setTargetPosition(targetEntity.getEntityCoordinates());
-            robotEntity.moveRobot(10);
+    private boolean isGamePaused = true;
+    Timer timer = new Timer(10, event -> {
+        robotEntity.moveRobot(10);
+        if(targetReached()){
+            targetEntity.randomPosition(gameVisualizer.getWindowSize());
         }
     });
-    private boolean isGamePaused = true;
+    private boolean targetReached(){
+        return (targetEntity.getEntityCoordinates().distance(robotEntity.getEntityCoordinates()) < 10.0);
+    }
     public ApplicationController(){
+        robotEntity.addObserver(gameVisualizer);
+
         setFocusable(true);
         requestFocusInWindow();
         addKeyListener(new KeyAdapter()

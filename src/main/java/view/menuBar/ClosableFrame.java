@@ -1,6 +1,6 @@
 package view.menuBar;
 
-import view.windowsSerializer.WindowSerializer;
+import view.windowSerializer.WindowSerializer;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

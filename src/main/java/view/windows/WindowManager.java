@@ -18,11 +18,11 @@ public class WindowManager {
         }
     }
 
-    public static LogWindow createLogWindow()
+    public static LogWindow createLogWindow(int width, int height)
     {
         LogWindow lgWindow = new LogWindow(Logger.getDefaultLogSource());
         lgWindow.setLocation(10,10);
-        lgWindow.setSize(300, 800);
+        lgWindow.setSize(width, height);
         lgWindow.setMinimumSize(lgWindow.getSize());
         lgWindow.pack();
         Logger.debug("Протокол работает");

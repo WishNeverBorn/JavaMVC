@@ -1,10 +1,10 @@
 package view.visualizers;
 
+import model.Entity;
 import model.RobotEntity;
 import model.TargetEntity;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import javax.swing.*;
@@ -13,20 +13,20 @@ import javax.swing.*;
  * Класс визуализатор на данный момент некорректный
  * Совмещает функционал контроллера и визуализатора
  * TODO:
+ *  Возможно методы которые выводят уведомление о паузе игры лучше увести в код игрового окна
  */
 public class GameVisualizer extends JPanel implements Observer
 {
     private final RobotEntity robot;
     private final TargetEntity target;
-    public GameVisualizer(RobotEntity robotEntity, TargetEntity targetEntity)
+    public GameVisualizer(RobotEntity robot, TargetEntity target)
     {
-        robot = robotEntity;
-        target = targetEntity;
-        robot.addObserver(this);
+        this.robot = robot;
+        this.target = target;
         setDoubleBuffered(true);
     }
     @Override
-    public void update() {
+    public void update(Entity typeEntity) {
         repaint();
     }
     @Override
@@ -77,11 +77,14 @@ public class GameVisualizer extends JPanel implements Observer
         g.setColor(Color.BLACK);
         drawOval(g, targetX, targetY, 8, 8);
     }
-
     public void hidePauseWindow(){
         JOptionPane.getRootFrame().dispose();
     }
     public void showPauseWindow(){
         JOptionPane.showMessageDialog(GameVisualizer.this, "ПАУЗА");
+    }
+    public Point2D getWindowSize(){
+        Rectangle r = GameVisualizer.this.getBounds();
+        return new Point2D.Double(r.width, r.height);
     }
 }

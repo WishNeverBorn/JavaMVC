@@ -1,4 +1,4 @@
-package view.windowsSerializer;
+package view.windowSerializer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -6,22 +6,22 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * Страшный кривой-косой класс WindowSerializer для сериализации объектов окон
+ * Страшный класс WindowSerializer для сериализации объектов окон
  * Используем для сохранения состояния окон, при запуске считываем данные из файлика и по ним
  *  восстанавливаем положение окон
  * При закрытии программы выгружаем положение окон в тот же файл
  * TODO:
- *  Сейчас путь к файлу задается по-клоунски напрямую, это никуда не годится, надо исправить!!!
+ *  Возможно надо доработать перехват исключений, сейчас мне физически больно на него смотреть
  */
 public class WindowSerializer {
-    private String pathway = "";
+    private String path = new File("src/main/resources/windowPositions.ser").getAbsolutePath();
     private List<JInternalFrame> windows = new ArrayList<>();
     public WindowSerializer(){}
     public void loadWindows(ArrayList<JInternalFrame> JWindows){
         windows.addAll(JWindows);
     }
     public void saveWindowPositions() {
-        try(FileOutputStream fileOut = new FileOutputStream(pathway);
+        try(FileOutputStream fileOut = new FileOutputStream(path);
             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
 
             for (JInternalFrame window : windows) {
@@ -33,7 +33,7 @@ public class WindowSerializer {
     }
 
     public void loadWindowPositions() {
-        try(FileInputStream fileIn = new FileInputStream(pathway);
+        try(FileInputStream fileIn = new FileInputStream(path);
             ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
             for (JInternalFrame window : windows) {
@@ -42,11 +42,8 @@ public class WindowSerializer {
         }
         catch (IOException | ClassNotFoundException e) {
             try {
-                FileOutputStream fileOutputStream = new FileOutputStream(pathway);
+                FileOutputStream fileOutputStream = new FileOutputStream(path);
                 fileOutputStream.close();
-            }
-            catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
             }
             catch (IOException ex) {
                 throw new RuntimeException(ex);

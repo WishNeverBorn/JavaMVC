@@ -2,14 +2,12 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import controller.ApplicationController;
 import view.menuBar.ClosableFrame;
 import view.menuBar.MenuBarGenerator;
-import view.windowsSerializer.WindowSerializer;
+import view.windowSerializer.WindowSerializer;
 
 import static view.windows.WindowManager.*;
 
@@ -25,9 +23,9 @@ public class MainApplicationFrame extends ClosableFrame
         setScreenAndBounds(returnInset(50));
         setContentPane(desktopPane);
 
-        frames.add(createLocationWindow(400, 400));
-        frames.add(createLogWindow());
         frames.add(createGameWindow(controller, 400, 400));
+        frames.add(createLocationWindow(400, 400));
+        frames.add(createLogWindow(300, 800));
         addListWindows(desktopPane, frames);
         serializer.loadWindows(frames);
 
@@ -36,14 +34,6 @@ public class MainApplicationFrame extends ClosableFrame
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setWindowListener(desktopPane, serializer);
-
-        addKeyListener(new KeyAdapter()
-        {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println(e.getKeyChar() + " key pressed");
-            }
-        });
     }
 
     public JDesktopPane getDesktopPane() {

@@ -1,7 +1,6 @@
 import controller.ApplicationController;
 import view.MainApplicationFrame;
-import view.visualizers.GameVisualizer;
-import view.windowsSerializer.WindowSerializer;
+import view.windowSerializer.WindowSerializer;
 
 import java.awt.Frame;
 import javax.swing.SwingUtilities;
