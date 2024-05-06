@@ -18,14 +18,17 @@ import static view.windows.WindowManager.*;
 public class MainApplicationFrame extends ClosableFrame
 {
     private final JDesktopPane desktopPane = new JDesktopPane();
-    private final ArrayList<JInternalFrame> frames = new ArrayList<>();
+
     public MainApplicationFrame(ApplicationController controller, WindowSerializer serializer) {
         setScreenAndBounds(returnInset(50));
         setContentPane(desktopPane);
 
-        frames.add(createGameWindow(controller, 400, 400));
-        frames.add(createLocationWindow(400, 400));
+        ArrayList<JInternalFrame> frames = new ArrayList<>();
+
         frames.add(createLogWindow(300, 800));
+        frames.add(createLocationWindow(400, 400));
+        frames.add(createGameWindow(controller, 400, 400));
+
         addListWindows(desktopPane, frames);
         serializer.loadWindows(frames);
 

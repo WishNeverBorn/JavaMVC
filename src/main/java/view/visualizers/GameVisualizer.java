@@ -3,17 +3,22 @@ package view.visualizers;
 import model.Entity;
 import model.RobotEntity;
 import model.TargetEntity;
+import view.windows.GameWindow;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import javax.swing.*;
 
 /**
- * Класс визуализатор на данный момент некорректный
- * Совмещает функционал контроллера и визуализатора
+ * Класс визуализатор занимается отображением графики на основе переданных от модели параметров
+ * Реализует паттерн наблюдаемый-наблюдатель
+ * Дополнительно содержит методы для работы с окном, позволяет получить размер окна
  * TODO:
- *  Возможно методы которые выводят уведомление о паузе игры лучше увести в код игрового окна
+ *  Возможно методы которые выводят уведомление о паузе игры лучше увести в код GameWindow
  */
 public class GameVisualizer extends JPanel implements Observer
 {
@@ -24,6 +29,13 @@ public class GameVisualizer extends JPanel implements Observer
         this.robot = robot;
         this.target = target;
         setDoubleBuffered(true);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                target.setWindowSize(getWindowSize());
+            }
+        });
     }
     @Override
     public void update(Entity typeEntity) {
@@ -81,10 +93,10 @@ public class GameVisualizer extends JPanel implements Observer
         JOptionPane.getRootFrame().dispose();
     }
     public void showPauseWindow(){
-        JOptionPane.showMessageDialog(GameVisualizer.this, "ПАУЗА");
+        JOptionPane.showMessageDialog(this, "ПАУЗА");
     }
     public Point2D getWindowSize(){
-        Rectangle r = GameVisualizer.this.getBounds();
+        Rectangle r = this.getBounds();
         return new Point2D.Double(r.width, r.height);
     }
 }

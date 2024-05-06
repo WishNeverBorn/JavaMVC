@@ -9,7 +9,7 @@ import java.awt.*;
  *  Добавить панельку которая делает подсчет игровых очков
  */
 public class InformationWindow extends JInternalFrame {
-    String manual = "Управление\n"
+    public final String manual = "Управление\n"
             + "Enter - начать игру/приостановить игру\n"
             + "W - направление вверх\n"
             + "A - направление влево\n"

@@ -9,15 +9,12 @@ public class RobotEntity extends Entity {
     private double robotDirection = 0;
     private static final double maxVelocity = 0.2;
     private static final double maxAngularVelocity = 0.000;
-    private final TargetEntity target;
-    public RobotEntity(TargetEntity targetEntity){
+    public RobotEntity(){
         super(100, 100);
-        target = targetEntity;
     }
-    public void directByKey(int keyCode){
-        robotDirection = setDirection(keyCode);
+    public void setDirection(double newDirection){
+        robotDirection = newDirection;
     }
-
     //Использовать для нормализации double'ов
     private static double applyLimits(double value, double min, double max)
     {
@@ -26,24 +23,6 @@ public class RobotEntity extends Entity {
         if (value > max)
             return max;
         return value;
-    }
-    private double setDirection(int keyCode){
-        double direction = 0.0;
-        switch(keyCode){
-            case KeyEvent.VK_W -> {
-                direction = -Math.PI / 2;
-            }
-            case KeyEvent.VK_A -> {
-                direction = Math.PI;
-            }
-            case KeyEvent.VK_S -> {
-                direction = Math.PI / 2;
-            }
-            case KeyEvent.VK_D -> {
-                direction = 0;
-            }
-        }
-        return direction;
     }
     public void moveRobot(double duration)
     {

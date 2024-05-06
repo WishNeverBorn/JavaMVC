@@ -3,6 +3,7 @@ package view.windows;
 import controller.ApplicationController;
 import log.Logger;
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -21,7 +22,8 @@ public class WindowManager {
     public static LogWindow createLogWindow(int width, int height)
     {
         LogWindow lgWindow = new LogWindow(Logger.getDefaultLogSource());
-        lgWindow.setLocation(10,10);
+        Point location = new Point(10, 10);
+        lgWindow.setLocation(location);
         lgWindow.setSize(width, height);
         lgWindow.setMinimumSize(lgWindow.getSize());
         lgWindow.pack();
@@ -33,6 +35,8 @@ public class WindowManager {
     {
         GameWindow gameWindow = new GameWindow(controller);
         gameWindow.setSize(width, height);
+        Point location = new Point(300, 10);
+        gameWindow.setLocation(location);
         return gameWindow;
     }
 
@@ -40,6 +44,8 @@ public class WindowManager {
     {
         InformationWindow informationWindow = new InformationWindow();
         informationWindow.setSize(width, height);
+        Point location = new Point(1000, 10);
+        informationWindow.setLocation(location);
         return informationWindow;
     }
 
